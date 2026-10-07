@@ -2,12 +2,12 @@ package com.king.deliveryking.user.entity;
 
 import com.king.deliveryking.global.common.UserRole;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "p_users") // 충돌로 인해 p_users
 @Getter
+@Setter
 @NoArgsConstructor
 public class User {
 
@@ -15,17 +15,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
-    private int failedLoginCount = 0;
+    @Column(nullable = false, unique = true)
+    private String email;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole status;
+    private UserRole role;
 
-    public User(String username, String password) {
+    @Builder
+    public User(String username, String password, String email,
+                UserRole role) {
         this.username = username;
         this.password = password;
+        this.email = email;
+        this.role = role;
     }
 }

@@ -1,5 +1,6 @@
 package com.king.deliveryking.order;
 
+import com.king.deliveryking.global.common.UserRole;
 import com.king.deliveryking.payment.repository.OrderRepository;
 import com.king.deliveryking.user.entity.User;
 import com.king.deliveryking.user.repository.UserRepository;
@@ -18,7 +19,7 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        User user = userRepository.save(new User("user", "1234"));
+        User user = userRepository.save(new User("user", "1234", "email@naver.com", UserRole.CUSTOMER));
 
         // id=1, PAID 상태 (취소 가능)
         orderRepository.save(new Order(user.getId(), 30000));
