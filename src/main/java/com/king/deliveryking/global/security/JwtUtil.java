@@ -5,6 +5,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
@@ -27,8 +29,6 @@ public class JwtUtil {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     // 사용자 권한 값의 KEY
     public static final String AUTHORIZATION_KEY = "auth";
-    // 사용자 ID 값의 KEY
-    public static final String USER_ID_KEY = "userId";
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer "; // 한 칸 space
     // 토큰 만료시간
@@ -50,13 +50,12 @@ public class JwtUtil {
     }
 
     // 1. jwt 생성
-    public String createToken(Long userId, String username, UserRole role) {
+    public String createToken(String username, UserRole role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username) // 사용자 식별자값(ID)
-                        .claim(USER_ID_KEY, userId) // 사용자 PK(id)
                         .claim(AUTHORIZATION_KEY, role) // 사용자 권한
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
@@ -112,9 +111,21 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
-    // 6. jwt에서 사용자 ID 추출
-    public Long getUserIdFromToken(String token) {
-        return getUserInfoFromToken(token).get(USER_ID_KEY, Long.class);
+    // HttpServletRequest 에서 Cookie Value : JWT 가져오기
+    public String getTokenFromRequest(HttpServletRequest req) {
+        Cookie[] cookies = req.getCookies();
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(AUTHORIZATION_HEADER)) {
+                    try {
+                        return URLDecoder.decode(cookie.getValue(), "UTF-8"); // Encode 되어 넘어간 Value 다시 Decode
+                    } catch (UnsupportedEncodingException e) {
+                        return null;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 }

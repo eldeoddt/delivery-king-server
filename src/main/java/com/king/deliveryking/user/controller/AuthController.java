@@ -1,14 +1,14 @@
 package com.king.deliveryking.user.controller;
 
 import com.king.deliveryking.global.common.UserRole;
-import com.king.deliveryking.global.exception.BusinessException;
 import com.king.deliveryking.global.exception.ErrorCode;
 import com.king.deliveryking.global.security.JwtUtil;
 import com.king.deliveryking.user.dto.request.LoginRequestDTO;
+import com.king.deliveryking.user.dto.request.SignupRequestDTO;
 import com.king.deliveryking.user.dto.response.LoginResponseDTO;
-import com.king.deliveryking.user.entity.User;
-import com.king.deliveryking.user.repository.UserRepository;
+import com.king.deliveryking.user.dto.response.SignupResponseDTO;
 import com.king.deliveryking.user.service.AuthService;
+import com.king.deliveryking.user.service.UserService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,18 +28,26 @@ public class AuthController {
 
     private final AuthService authService;
 
+    private final UserService userService;
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
 
-        return ResponseEntity.ok(new LoginResponseDTO(user.getUsername(), "dummy-token"));
+        return ResponseEntity.ok(new LoginResponseDTO(
+
+        ));
     }
 
 
     @PostMapping("/signup")
-    public ResponseEntity<SignupResponseDTO> login(@RequestBody LoginRequestDTO request) {
+    public ResponseEntity<SignupResponseDTO> signup(@RequestBody SignupRequestDTO request) {
 
-        return ResponseEntity.ok(new LoginResponseDTO(user.getUsername(), "dummy-token"));
+        return ResponseEntity.ok(new SignupResponseDTO(
+
+        ));
     }
+
+
 
 
 
