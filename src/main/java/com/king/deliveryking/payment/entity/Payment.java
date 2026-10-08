@@ -30,7 +30,8 @@ public class Payment extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PaymentStatus status = PaymentStatus.READY; // 결제 생성 시 대기 상태
 
-    @OneToOne(fetch = FetchType.LAZY)
+    // 결제 n: 주문 1
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
