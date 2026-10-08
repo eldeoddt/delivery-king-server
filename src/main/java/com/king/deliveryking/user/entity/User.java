@@ -1,6 +1,7 @@
 package com.king.deliveryking.user.entity;
 
 import com.king.deliveryking.global.common.UserRole;
+import com.king.deliveryking.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
