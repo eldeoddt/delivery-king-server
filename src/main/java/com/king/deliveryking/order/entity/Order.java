@@ -33,8 +33,9 @@ public class Order extends BaseEntity {
     private Menu menu;
 
     @Builder
-    public Order(User user) {
+    public Order(User user, Menu menu) {
         this.user = user;
+        this.menu = menu;
     }
 
     public void changeStatus(OrderStatus status) {
