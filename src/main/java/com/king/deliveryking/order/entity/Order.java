@@ -24,6 +24,15 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.PENDING; // 주문 생성 시 결제 전 상태
 
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private Integer totalPrice; // 주문 당시 메뉴 가격 × 수량
+
+    @Column(nullable = false)
+    private String address;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false) // p_order 내 컬럼명을 지정한다.
     private User user;
@@ -33,12 +42,19 @@ public class Order extends BaseEntity {
     private Menu menu;
 
     @Builder
-    public Order(User user, Menu menu) {
+    public Order(User user, Menu menu, Integer quantity, String address) {
         this.user = user;
         this.menu = menu;
+        this.quantity = quantity;
+        this.address = address;
+        this.totalPrice = menu.getPrice() * quantity; // 총액은 서버에서 계산
     }
 
     public void changeStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public void cancelOrder() {
+        this.status = OrderStatus.CANCELED;
     }
 }

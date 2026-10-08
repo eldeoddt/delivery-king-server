@@ -24,7 +24,8 @@ public enum ErrorCode {
     ACCOUNT_LOCKED(HttpStatus.LOCKED, "계정이 잠겼습니다. 관리자에게 문의하세요."),
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "주문을 찾을 수 없습니다."),
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "메뉴를 찾을 수 없습니다."),
-    CANNOT_CANCEL_ORDER(HttpStatus.CONFLICT, "이미 처리 중인 주문은 취소할 수 없습니다.");
+    CANNOT_CANCEL_ORDER(HttpStatus.CONFLICT, "이미 처리 중인 주문은 취소할 수 없습니다."),
+    INVALID_ORDER_STATUS(HttpStatus.CONFLICT, "변경할 수 없는 주문 상태입니다.");
 
     private final HttpStatus status;
     private final String message;
