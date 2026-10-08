@@ -21,6 +21,11 @@ public class UserDetailsImpl implements UserDetails {
         return user;
     }
 
+    // JWT로 인증된 사용자의 id
+    public Long getUserId() {
+        return user.getId();
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();

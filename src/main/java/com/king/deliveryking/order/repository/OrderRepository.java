@@ -1,4 +1,4 @@
-package com.king.deliveryking.payment.repository;
+package com.king.deliveryking.order.repository;
 
 import com.king.deliveryking.order.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;

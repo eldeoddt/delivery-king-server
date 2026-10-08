@@ -8,8 +8,7 @@ import lombok.*;
 @Entity
 @Table(name = "p_users") // 충돌로 인해 p_users
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
     @Id
