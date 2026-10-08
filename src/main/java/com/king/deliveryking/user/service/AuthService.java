@@ -34,13 +34,13 @@ public class AuthService {
         String password = passwordEncoder.encode(requestDto.password());
 
         // 회원 중복 확인
-        if (userRepository.findByUsername(username).isPresent()) {
+        if (userRepository.existsByUsername(username)) {
             throw new BusinessException(ErrorCode.DUPLICATE_USERNAME);
         }
 
         // email 중복확인
         String email = requestDto.email();
-        if (userRepository.findByEmail(email).isPresent()) {
+        if (userRepository.existsByEmail(email)) {
             throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
         }
 
