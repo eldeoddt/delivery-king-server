@@ -25,7 +25,8 @@ public enum ErrorCode {
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "주문을 찾을 수 없습니다."),
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "메뉴를 찾을 수 없습니다."),
     CANNOT_CANCEL_ORDER(HttpStatus.CONFLICT, "이미 처리 중인 주문은 취소할 수 없습니다."),
-    INVALID_ORDER_STATUS(HttpStatus.CONFLICT, "변경할 수 없는 주문 상태입니다.");
+    INVALID_ORDER_STATUS(HttpStatus.CONFLICT, "변경할 수 없는 주문 상태입니다."),
+    CANNOT_PAY_ORDER(HttpStatus.CONFLICT, "결제할 수 없는 주문입니다. 이미 결제되었거나 취소된 주문입니다.");
 
     private final HttpStatus status;
     private final String message;

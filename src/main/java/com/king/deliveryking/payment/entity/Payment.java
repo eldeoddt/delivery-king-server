@@ -6,6 +6,7 @@ import com.king.deliveryking.payment.PaymentMethod;
 import com.king.deliveryking.payment.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +33,14 @@ public class Payment extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
+
+    // 생성 시 READY 상태이다.
+    @Builder
+    public Payment(Order order, PaymentMethod method) {
+        this.order = order;
+        this.method = method;
+        this.price = order.getTotalPrice(); // 결제 금액은 서버의 주문 총액
+    }
 
     public void changeStatus(PaymentStatus status) {
         this.status = status;
