@@ -23,4 +23,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new UserDetailsImpl(user);
     }
+
+    // JWT의 사용자 id로 조회
+    public UserDetails loadUserById(Long userId) throws UsernameNotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("Not Found " + userId));
+
+        return new UserDetailsImpl(user);
+    }
 }

@@ -8,8 +8,5 @@ public record LoginRequestDTO (
         String username,
 
         @NotBlank(message = "비밀번호는 필수입니다.")
-        String password,
-
-        @NotBlank(message = "역할은 필수입니다.")
-        String userRole
+        String password
 ){}

@@ -4,7 +4,6 @@ public record SignupResponseDTO(
 
         String username,
         String email,
-        boolean owner, // 사장님: 1 고객: 0
-        String ownerToken
+        boolean owner // 사장님: 1 고객: 0
 ) {
 }
