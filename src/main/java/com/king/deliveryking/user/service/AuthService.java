@@ -45,19 +45,16 @@ public class AuthService {
         }
 
         // 사용자 ROLE 확인
-        UserRole role = UserRole.CUSTOMER;
-        if (requestDto.owner()) {
-            if (!ownerToken.equals(requestDto.ownerToken())) {
-                throw new BusinessException(ErrorCode.INVALID_OWNER_TOKEN);
-            }
-            role = UserRole.OWNER;
+        UserRole role = requestDto.role();
+        if (role == UserRole.OWNER && !ownerToken.equals(requestDto.ownerToken())) { // 사장님 토큰 확인
+            throw new BusinessException(ErrorCode.INVALID_OWNER_TOKEN);
         }
 
         // 사용자 등록
         User user = new User(username, password, email, role);
         userRepository.save(user);
 
-        return new SignupResponseDTO(user.getUsername(), user.getEmail(), role == UserRole.OWNER);
+        return SignupResponseDTO.from(user);
     }
 
     // 로그인
