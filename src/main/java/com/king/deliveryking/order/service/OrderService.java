@@ -2,6 +2,7 @@ package com.king.deliveryking.order.service;
 
 import com.king.deliveryking.global.exception.BusinessException;
 import com.king.deliveryking.global.exception.ErrorCode;
+import com.king.deliveryking.menu.MenuStatus;
 import com.king.deliveryking.menu.entity.Menu;
 import com.king.deliveryking.menu.repository.MenuRepository;
 import com.king.deliveryking.order.dto.request.OrderRequestDTO;
@@ -26,9 +27,8 @@ public class OrderService {
     @Transactional
     public OrderResponseDTO createOrder(Long userId, OrderRequestDTO requestDTO) {
         // 메뉴 확인
-        Menu menu = menuRepository.findById(requestDTO.menuId()).orElseThrow(
-                () -> new BusinessException(ErrorCode.MENU_NOT_FOUND)
-        );
+        Menu menu = menuRepository.findByIdAndStatus(requestDTO.menuId(), MenuStatus.ACTIVE)
+                .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND));
 
         // JWT 필터에서 이미 사용자를 조회했으므로 FK 연결용 프록시만 가져온다.
         User user = userRepository.getReferenceById(userId);

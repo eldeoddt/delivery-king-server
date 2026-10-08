@@ -4,24 +4,21 @@ import com.king.deliveryking.global.entity.BaseEntity;
 import com.king.deliveryking.menu.MenuStatus;
 import com.king.deliveryking.user.entity.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = true)
@@ -38,9 +35,10 @@ public class Menu extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public void update(
-            @NotBlank String name, @NotNull Integer price, @Size(max = 255) String description
-    ) {
+    public void update(String name, Integer price, String description) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
     }
 
     @Builder
@@ -49,5 +47,9 @@ public class Menu extends BaseEntity {
         this.description = description;
         this.price = price;
         this.user = user;
+    }
+
+    public void delete() {
+        this.status = MenuStatus.DELETED;
     }
 }

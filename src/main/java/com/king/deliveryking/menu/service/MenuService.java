@@ -34,6 +34,7 @@ public class MenuService {
                 .price(request.price())
                 .user(user)
                 .build();
+        menuRepository.save(menu);
 
         return MenuResponseDTO.from(menu);
     }
@@ -55,7 +56,7 @@ public class MenuService {
         return MenuResponseDTO.from(menu);
     }
 
-    public MenuResponseDTO updateMenu(Long userId, Long menuId, @Valid MenuRequestDTO request) {
+    public MenuResponseDTO updateMenu(Long userId, Long menuId, MenuRequestDTO request) {
         Menu menu = menuRepository.findByIdAndStatus(menuId, MenuStatus.ACTIVE)
                 .orElseThrow(() -> new BusinessException(ErrorCode.MENU_NOT_FOUND)); // 404
 
@@ -79,6 +80,6 @@ public class MenuService {
             throw new BusinessException(ErrorCode.FORBIDDEN);
         }
 
-        menu.setStatus(MenuStatus.DELETED);
+        menu.delete();
     }
 }
